@@ -28,8 +28,8 @@ describe('Issue comments creating, editing and deleting', () => {
     });
 
     it('Should edit a comment successfully', () => {
-        const previousComment = 'I TRY TO TEST STUFF';
-        const comment = 'I TEST STUFF';
+        const comment = 'I TRY TO TEST STUFF';
+        const newComment = 'I TEST STUFF';
 
         getIssueDetailsModal().within(() => {
             cy.get('[data-testid="issue-comment"]')
@@ -39,9 +39,9 @@ describe('Issue comments creating, editing and deleting', () => {
                 .should('not.exist');
 
             cy.get('textarea[placeholder="Add a comment..."]')
-                .should('contain', previousComment)
+                .should('contain', comment)
                 .clear()
-                .type(comment);
+                .type(newComment);
 
             cy.contains('button', 'Save')
                 .click()
@@ -49,11 +49,13 @@ describe('Issue comments creating, editing and deleting', () => {
 
             cy.get('[data-testid="issue-comment"]')
                 .should('contain', 'Edit')
-                .and('contain', comment);
+                .and('contain', newComment);
         });
     });
 
     it('Should delete a comment successfully', () => {
+        const newComment = 'I TEST STUFF';
+
         getIssueDetailsModal()
             .find('[data-testid="issue-comment"]')
             .contains('Delete')
@@ -66,6 +68,7 @@ describe('Issue comments creating, editing and deleting', () => {
 
         getIssueDetailsModal()
             .find('[data-testid="issue-comment"]')
+            .contains (newComment)
             .should('not.exist');
     });
 });
